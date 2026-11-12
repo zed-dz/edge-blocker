@@ -1,0 +1,6 @@
+# OS junk
+Thumbs.db
+desktop.ini
+*.log
+# Local backups
+backup*.json
