@@ -1,0 +1,15 @@
+name: Something went wrong
+description: Tell me what happened.
+labels: [bug]
+body:
+  - type: input
+    attributes: {label: Windows version and build, description: Press Win+R and type winver, placeholder: "Windows 11 24H2, build 26100.1"}
+    validations: {required: true}
+  - type: dropdown
+    attributes: {label: "Is the PC managed by a company or school?", options: ["No", "Yes", "I do not know"]}
+    validations: {required: true}
+  - type: dropdown
+    attributes: {label: "What happened?", options: ["Edge came back", "Undo did not put something back", "An app that needs WebView2 broke", "Something else"]}
+    validations: {required: true}
+  - type: textarea
+    attributes: {label: Output of edge-block.ps1 -WhatIf, render: text}
