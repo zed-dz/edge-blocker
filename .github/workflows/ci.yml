@@ -1,0 +1,26 @@
+name: tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Checks that change nothing
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tests/run.ps1
+      - name: Script analyzer
+        shell: powershell
+        run: |
+          if (-not (Get-Module -ListAvailable PSScriptAnalyzer)) { Install-Module PSScriptAnalyzer -Force -Scope CurrentUser }
+          # Step uses the script's own ShouldProcess, which the analyzer cannot see.
+          $found = foreach ($f in 'edge-block.ps1', 'edge-unblock.ps1') { Invoke-ScriptAnalyzer -Path $f -Severity Warning, Error -ExcludeRule PSShouldProcess }
+          $found | Format-Table -Wrap
+          if ($found) { exit 1 }
+      - name: Real block and undo, on this throwaway machine
+        shell: powershell
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File tests/run.ps1 -RealMachine

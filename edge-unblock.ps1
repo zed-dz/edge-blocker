@@ -59,7 +59,7 @@ function Get-Current($key, $name) {
 }
 # Every change goes through here. In a dry run the action is never run.
 function Step([string]$Target, [string]$What, [scriptblock]$Action) {
-  if ($dry) { Write-Output "What if: $What`n         $Target"; return }
+  if ($dry) { Write-Output "What if: $What"; Write-Verbose "         $Target"; return }
   if ($PSCmdlet.ShouldProcess($Target, $What)) { & $Action }
 }
 
@@ -96,12 +96,12 @@ foreach ($v in $Ours) {
       continue
     }
     if ("$now" -eq "$($was.old)") { continue }
-    Step "$($v.key)\$($v.name)" "Restore old value $($was.old)" {
+    Step "$($v.key)\$($v.name)" "Restore $($v.name) to $($was.old)" {
       if (-not (Test-Path $v.key)) { New-Item -Path $v.key -Force | Out-Null }
       New-ItemProperty -Path $v.key -Name $v.name -Value $was.old -PropertyType $kind -Force | Out-Null
     }
   } elseif ($null -ne $now) {
-    Step "$($v.key)\$($v.name)" 'Remove value (it did not exist before)' {
+    Step "$($v.key)\$($v.name)" "Remove $($v.name) (it did not exist before)" {
       Remove-ItemProperty -Path $v.key -Name $v.name
     }
   }

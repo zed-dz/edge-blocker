@@ -14,6 +14,7 @@
 
 .PARAMETER WhatIf
   Dry run. Prints every change it would make and changes nothing. Admin rights not needed.
+  Add -Verbose to see the exact registry value behind each line.
 
 .PARAMETER DryRun
   Same as -WhatIf.
@@ -77,7 +78,7 @@ function Test-Installed($folder) {
 }
 # Every change goes through here. In a dry run the action is never run.
 function Step([string]$Target, [string]$What, [scriptblock]$Action) {
-  if ($dry) { Write-Output "What if: $What`n         $Target"; return }
+  if ($dry) { Write-Output "What if: $What"; Write-Verbose "         $Target"; return }
   if ($PSCmdlet.ShouldProcess($Target, $What)) { & $Action }
 }
 

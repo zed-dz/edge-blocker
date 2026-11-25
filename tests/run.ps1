@@ -22,7 +22,7 @@ function Check([string]$name, [bool]$ok) {
 $Changing = 'New-Item', 'New-ItemProperty', 'Remove-Item', 'Remove-ItemProperty', 'Set-Content', 'Move-Item', 'Set-Service'
 $Reading = 'Join-Path', 'New-Object', 'Test-Path', 'Get-ItemProperty', 'Get-Item', 'Get-Service', 'Get-Content', 'Get-Date',
            'ConvertTo-Json', 'ConvertFrom-Json', 'ForEach-Object', 'Where-Object', 'Select-Object', 'Out-Null',
-           'Write-Output', 'Write-Error', 'Write-Warning'
+           'Write-Output', 'Write-Error', 'Write-Warning', 'Write-Verbose'
 $Own = 'Step', 'Test-Admin', 'Get-Current', 'Get-Kind', 'Test-Installed'
 $Methods = 'GetCurrent', 'IsInRole', 'GetValueKind', 'ToString', 'ShouldProcess'
 
